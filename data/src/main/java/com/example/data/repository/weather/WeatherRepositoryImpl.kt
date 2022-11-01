@@ -1,17 +1,16 @@
 package com.example.data.repository.weather
 
 import android.util.Log
-import com.example.data.api.KtorInterface
 import com.example.data.mapper.mapperToWeather
+import com.example.data.repository.weather.remote.WeatherRemoteDataSource
 import com.example.domain.model.Weather
 import com.example.domain.repository.WeatherRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class WeatherRepositoryImpl @Inject constructor(
-    private val ktorInterface: KtorInterface
+    private val weatherRemoteDataSource: WeatherRemoteDataSource
 ) : WeatherRepository {
 
     override fun getWeatherFlow(
@@ -24,21 +23,13 @@ class WeatherRepositoryImpl @Inject constructor(
         nx: String,
         ny: String
     ): Flow<List<Weather>> {
-        Log.d("sbandTest", "getWeatherFlow()")
+        Log.d("sbandTest", "WeatherRepositoryImpl getWeatherFlow()")
         Log.d("sbandTest", "serviceKey: $serviceKey numOfRows: $numOfRows, pageNo: $pageNo, dataType: $dataType, base_date: $base_date, " +
                 "base_time: $base_time, nx: $nx, ny: $ny")
         return flow {
-            ktorInterface.requestWeatherData(
-                serviceKey,
-                numOfRows,
-                pageNo,
-                dataType,
-                base_date,
-                base_time,
-                nx,
-                ny
-            ).collect {
-                Log.d("sbandTest", "it: $it")
+            Log.d("sbandTest", "WeatherRepositoryImpl getWeatherFlow() flow 안")
+            weatherRemoteDataSource.getWeatherFlow(serviceKey, numOfRows, pageNo, dataType, base_date, base_time, nx, ny).collect {
+                Log.d("sbandTest", "WeatherRepositoryImpl getWeatherFlow() 맵핑전 it: $it")
                 emit(mapperToWeather(it.response.body.items))
             }
         }

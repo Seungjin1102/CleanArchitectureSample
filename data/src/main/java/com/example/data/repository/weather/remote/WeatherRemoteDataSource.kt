@@ -1,11 +1,10 @@
-package com.example.data.api
+package com.example.data.repository.weather.remote
 
 import com.example.data.model.weather.WeatherResponse
 import kotlinx.coroutines.flow.Flow
 
-interface KtorInterface {
-
-    suspend fun requestWeatherData(
+interface WeatherRemoteDataSource {
+    suspend fun getWeatherFlow(
         serviceKey: String,
         numOfRows: Int,
         pageNo: Int,
