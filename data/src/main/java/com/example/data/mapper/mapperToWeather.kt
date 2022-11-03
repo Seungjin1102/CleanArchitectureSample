@@ -10,7 +10,8 @@ fun mapperToWeather(items: WeatherResponse.Items): List<Weather> {
     return items.item.map {
         Weather(
             it.fcstValue,
-            it.category
+            it.category,
+            it.fcstTime
         )
     }
 

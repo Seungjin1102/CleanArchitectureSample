@@ -9,27 +9,16 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object DataModule {
 
-    @Singleton
     @Provides
     fun provideRemoteDataSource(apiInterface: ApiInterface): WeatherRemoteDataSource {
         return WeatherRemoteDataSourceImpl(apiInterface)
     }
 
-//    @Singleton
-//    @Provides
-//    fun provideWeatherRepository(
-//        ktorInterface: KtorInterface,
-//    ): WeatherRepository {
-//        return WeatherRepositoryImpl(ktorInterface)
-//    }
-
-    @Singleton
     @Provides
     fun provideWeatherRepository(
         weatherRemoteDataSource: WeatherRemoteDataSource

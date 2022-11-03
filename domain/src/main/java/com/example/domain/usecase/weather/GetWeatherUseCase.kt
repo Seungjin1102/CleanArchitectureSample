@@ -12,7 +12,7 @@ class GetWeatherUseCase @Inject constructor(private val repository: WeatherRepos
         pageNo: Int,
         dataType: String,
         base_date: Int,
-        base_time: Int,
+        base_time: String,
         nx: String,
         ny: String
     ): Flow<List<Weather>> = repository.getWeatherFlow(

@@ -13,7 +13,7 @@ interface ApiInterface {
         @Query("pageNo") pageNo: Int,
         @Query("dataType") dataType: String,
         @Query("base_date") base_date: Int,
-        @Query("base_time") base_time: Int,
+        @Query("base_time") base_time: String,
         @Query("nx") nx: String,
         @Query("ny") ny: String
     ): WeatherResponse

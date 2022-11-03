@@ -42,8 +42,7 @@ class WeatherAdapter(private val context: Context)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        Log.d("sbandTest", "onBindViewHolder() data[position: ${data[position]}")
-        Log.d("sbandTest", "mutableMap[data[position].category]: ${mutableMap[data[position].category]}")
+//        Log.d("sbandTest", "mutableMap[data[position].category]: ${mutableMap[data[position].category]}")
         val category = mutableMap[data[position].category] ?: ""
         val value = data[position].fcstValue
         holder.bind(category, value)

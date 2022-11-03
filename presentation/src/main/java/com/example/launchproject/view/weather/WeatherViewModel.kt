@@ -25,18 +25,18 @@ class WeatherViewModel @Inject constructor(
 
     private val _weatherList = MutableLiveData<MutableList<Weather>>()
     val weatherList : LiveData<MutableList<Weather>> get() = _weatherList
-
+    var currentTIme = MutableLiveData<String>()
 
     fun requestWeatherFlow() {
         Log.d("sbandTest", "requestWeatherFlow()")
         viewModelScope.launch {
             getWeatherUseCase.getFlowData(
                 ApiClient.SERVICE_KEY,
-                12,
+                36,
                 1,
                 "JSON",
                  getCurrentDay(),
-                getCurrentTime(),
+                getCurrentTime().toString(),
                 "55",
                 "127"
             ).onStart { Log.d("sbandTest", "WeatherViewModel requestWeatherFlow() 코루틴 start") }
@@ -45,30 +45,28 @@ class WeatherViewModel @Inject constructor(
                     Log.d("sbandTest", "WeatherViewModel requestWeatherFlow() 코루틴 fail")
                 }
                 .collect { weather ->
-                    _weatherList.value = weather.toMutableList()
+                    Log.d("sbandTest", "currentTIme.value: ${currentTIme.value} weather: $weather")
+                    _weatherList.value = weather.filter { it.fcstTime == currentTIme.value  }.toMutableList()
                     Log.d("sbandTest", "WeatherViewModel collevt weatherList: ${_weatherList.value}")
                 }
         }
     }
 
-    fun getCurrentDay(): Int {
+    private fun getCurrentDay(): Int {
         val current = LocalDateTime.now()
         val formatted = current.format(DateTimeFormatter.ISO_DATE).replace("-", "").toInt()
         Log.d("sbandTest", "getCurrentDay() 현재날짜 : $formatted")
         return formatted
     }
 
-    fun getCurrentTime(): Int {
+    private fun getCurrentTime(): Int {
         val current = LocalDateTime.now()
-        val formatted = (current.format(DateTimeFormatter.ISO_LOCAL_TIME).replace(":", "").substring(0, 4)
-            .toInt() / 100) * 100
-        var time = 1100
-        if (formatted > 1100) {
-            val timeList = listOf(1100, 1400, 1700, 2000, 2300)
-            timeList.forEach {
-                if (formatted >= it) time = it
-            }
-
+        val formatted = current.format(DateTimeFormatter.ISO_LOCAL_TIME).replace(":", "").substring(0, 2) + "00"
+        currentTIme.value = formatted
+        var time = 0
+        val timeList = listOf(200, 500, 800, 1100, 1400, 1700, 2000, 2300)
+        timeList.forEach {
+            if (formatted.toInt() >= it) time = it
         }
         Log.d("sbandTest", "getCurrentTime() formatted: $formatted time: $time")
         return time
