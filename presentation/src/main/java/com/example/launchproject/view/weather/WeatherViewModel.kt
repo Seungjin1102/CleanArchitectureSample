@@ -36,7 +36,7 @@ class WeatherViewModel @Inject constructor(
                 1,
                 "JSON",
                  getCurrentDay(),
-                getCurrentTime().toString(),
+                getCurrentTime(),
                 "55",
                 "127"
             ).onStart { Log.d("sbandTest", "WeatherViewModel requestWeatherFlow() 코루틴 start") }
@@ -59,7 +59,7 @@ class WeatherViewModel @Inject constructor(
         return formatted
     }
 
-    private fun getCurrentTime(): Int {
+    private fun getCurrentTime(): String {
         val current = LocalDateTime.now()
         val formatted = current.format(DateTimeFormatter.ISO_LOCAL_TIME).replace(":", "").substring(0, 2) + "00"
         currentTIme.value = formatted
@@ -69,6 +69,7 @@ class WeatherViewModel @Inject constructor(
             if (formatted.toInt() >= it) time = it
         }
         Log.d("sbandTest", "getCurrentTime() formatted: $formatted time: $time")
-        return time
+        return if (time.toString().length < 4) "0$time"
+        else time.toString()
     }
 }
