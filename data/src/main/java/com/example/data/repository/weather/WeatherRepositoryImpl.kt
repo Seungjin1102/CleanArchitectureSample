@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class WeatherRepositoryImpl @Inject constructor(
+class WeatherRepositoryImpl(
     private val weatherRemoteDataSource: WeatherRemoteDataSource
 ) : WeatherRepository {
 

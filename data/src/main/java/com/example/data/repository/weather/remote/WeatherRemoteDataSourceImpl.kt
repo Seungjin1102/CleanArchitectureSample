@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class WeatherRemoteDataSourceImpl @Inject constructor(private val apiInterface: ApiInterface) : WeatherRemoteDataSource{
+class WeatherRemoteDataSourceImpl(private val apiInterface: ApiInterface) : WeatherRemoteDataSource{
     override suspend fun getWeatherFlow(
         serviceKey: String,
         numOfRows: Int,

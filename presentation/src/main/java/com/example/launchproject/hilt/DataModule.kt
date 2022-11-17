@@ -1,5 +1,6 @@
 package com.example.launchproject.hilt
 
+import android.util.Log
 import com.example.data.api.ApiInterface
 import com.example.data.repository.weather.WeatherRepositoryImpl
 import com.example.data.repository.weather.remote.WeatherRemoteDataSource
@@ -16,6 +17,7 @@ object DataModule {
 
     @Provides
     fun provideRemoteDataSource(apiInterface: ApiInterface): WeatherRemoteDataSource {
+        Log.d("sbandTest", "DataModule provideRemoteDataSource()")
         return WeatherRemoteDataSourceImpl(apiInterface)
     }
 
@@ -23,6 +25,7 @@ object DataModule {
     fun provideWeatherRepository(
         weatherRemoteDataSource: WeatherRemoteDataSource
     ): WeatherRepository {
+        Log.d("sbandTest", "DataModule provideWeatherRepository()")
         return WeatherRepositoryImpl(weatherRemoteDataSource)
     }
 
